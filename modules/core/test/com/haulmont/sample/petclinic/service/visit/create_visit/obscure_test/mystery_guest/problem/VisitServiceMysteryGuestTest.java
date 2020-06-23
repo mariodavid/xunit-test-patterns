@@ -56,7 +56,7 @@ public class VisitServiceMysteryGuestTest {
      * - what happens if another test also relies on pikachu and creates a visit for this test case?
      */
     @Test
-    public void createVisitForToday_createsANewVisit_withTheCorrectVisitInformation() {
+    public void createVisitForToday_createsANewVisit_withMysteryGuest() {
 
         // when:
         visit = visitService.createVisitForToday("025");

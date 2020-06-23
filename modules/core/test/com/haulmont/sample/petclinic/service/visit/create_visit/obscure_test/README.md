@@ -49,7 +49,7 @@ In the test class [VisitServiceNonEagerTest](eager_test/solution/VisitServiceNon
 
 A mystery guest test has the problem that it is hard to understand how the system looks like only by looking at the test case. This happens e.g. when "general fixture" is used.   
 
-The test method `createVisitForToday_createsANewVisit_ifPossible` in [VisitServiceMysteryGuestTest](mystery_guest/problem/VisitServiceMysteryGuestTest.java) has these problems:
+The test method `createVisitForToday_createsANewVisit_withMysteryGuest` in [VisitServiceMysteryGuestTest](mystery_guest/problem/VisitServiceMysteryGuestTest.java) has these problems:
 
  * where does "pikachu" come from? what attributes does it have?
  * which pet is associated with the identification number "25"?
