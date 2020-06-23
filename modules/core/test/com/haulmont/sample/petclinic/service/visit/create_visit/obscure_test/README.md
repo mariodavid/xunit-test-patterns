@@ -49,7 +49,7 @@ In the test class [VisitServiceNonEagerTest](eager_test/solution/VisitServiceNon
 
 A mystery guest test has the problem that it is hard to understand how the system looks like only by looking at the test case. This happens e.g. when "general fixture" is used.   
 
-The test method `createVisitForToday_createsANewVisit_withMysteryGuest` in [VisitServiceMysteryGuestTest](mystery_guest/problem/VisitServiceMysteryGuestTest.java) has these problems:
+The test method `createVisitForToday_createsANewVisit_withMysteryGuest` in [VisitServiceMysteryGuestTest](mystery_guest/problem/VisitServiceMysteryGuestTest.java#L51) has these problems:
 
  * where does "pikachu" come from? what attributes does it have?
  * which pet is associated with the identification number "25"?
@@ -62,9 +62,9 @@ This smell results in:
 * dependencies between test cases
 
 
-In the test class [VisitServiceNonMysteryGuestViaFreshFixtureTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaFreshFixtureTest.java) the test case creates the test data as a fresh fixture. It creates a Pet that is only used in this test case. 
+In the test class [VisitServiceNonMysteryGuestViaFreshFixtureTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaFreshFixtureTest.java#L56) the test case creates the test data as a fresh fixture. It creates a Pet that is only used in this test case. 
 
-As an alternative in case switching to "fresh fixture" is not possible, one alternative approach is still keep the general & shared fixture (see [VisitServiceNonMysteryGuestViaGuardClauseTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaGuardClauseTest.java). In order to mitigate the situation that other tests can influence the behavior of the test by changing the test data, a "guard-clause" is used in the "arrange" part of the test case.
+As an alternative in case switching to "fresh fixture" is not possible, one alternative approach is still keep the general & shared fixture (see [VisitServiceNonMysteryGuestViaGuardClauseTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaGuardClauseTest.java#L58). In order to mitigate the situation that other tests can influence the behavior of the test by changing the test data, a "guard-clause" is used in the "arrange" part of the test case.
 
 
 

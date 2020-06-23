@@ -48,7 +48,7 @@ public class VisitServiceNonMysteryGuestViaFreshFixtureTest {
 
 
     /**
-     * Solution 2:
+     * Solution:
      *
      * - introduce "fresh fixture"
      */

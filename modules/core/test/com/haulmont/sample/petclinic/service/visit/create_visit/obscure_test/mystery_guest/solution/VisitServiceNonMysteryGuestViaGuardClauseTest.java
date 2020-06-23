@@ -48,7 +48,7 @@ public class VisitServiceNonMysteryGuestViaGuardClauseTest {
 
 
     /**
-     * Solution 1:
+     * Solution:
      *
      * - keep "general fixture"
      * - introduce "arrange-guard clause" to fail fast
