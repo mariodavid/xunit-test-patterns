@@ -6,16 +6,19 @@ The problem with obscure tests is that they threaten the goal of "Test as Docume
 
 Furthermore, it decreases the test maintainability, as it is hard to understand the test case. This results in longer cycle times for fixing bugs through tests.
 
-[X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/Obscure%20Test.html)
+more information: [X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/Obscure%20Test.html)
 
-There are several causes of a obscure test:
+
+### Reasons
+
+There are several causes of an obscure test:
 
 * Eager Test (tests too much in a single test method)
 * Mystery Guest (not able to see the cause -> effect of setup & verification)
 * General Fixture
 
 
-### Eager Test
+#### Eager Test
 
 In case of an eager test, the test case performs multiple functionalities inside of one test method.
 
@@ -35,8 +38,33 @@ This smell results in:
 
 The solution to the smell is to create "single condition tests". Test methods that focus on one particular aspect / question of the overall functionality. 
 
-In the test case [VisitServiceNonEagerTest](eager_test/solution/VisitServiceNonEagerTest.java) the test case is split into two distinct test cases:
+In the test class [VisitServiceNonEagerTest](eager_test/solution/VisitServiceNonEagerTest.java) the test case is split into three distinct test cases:
 
-* createVisitForToday_createsANewVisit_forTheCorrectPet
-* createVisitForToday_createsANewVisit_withTheCorrectVisitInformation
-* createVisitForToday_createsNoVisit_forAnIncorrectIdentificationNumber
+* `createVisitForToday_createsANewVisit_forTheCorrectPet`
+* `createVisitForToday_createsANewVisit_withTheCorrectVisitInformation`
+* `createVisitForToday_createsNoVisit_forAnIncorrectIdentificationNumber`
+
+
+#### Mystery Guest
+
+A mystery guest test has the problem that it is hard to understand how the system looks like only by looking at the test case. This happens e.g. when "general fixture" is used.   
+
+The test method `createVisitForToday_createsANewVisit_ifPossible` in [VisitServiceMysteryGuestTest](mystery_guest/problem/VisitServiceMysteryGuestTest.java) has these problems:
+
+ * where does "pikachu" come from? what attributes does it have?
+ * which pet is associated with the identification number "25"?
+ * how do we know how many visits are available for pikachu?
+ * what happens if another test also relies on pikachu and creates a visit for this test case?
+
+This smell results in:
+
+* hard to get the full picture of the test
+* dependencies between test cases
+
+
+In the test class [VisitServiceNonMysteryGuestViaFreshFixtureTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaFreshFixtureTest.java) the test case creates the test data as a fresh fixture. It creates a Pet that is only used in this test case. 
+
+As an alternative in case switching to "fresh fixture" is not possible, one alternative approach is still keep the general & shared fixture (see [VisitServiceNonMysteryGuestViaGuardClauseTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaGuardClauseTest.java). In order to mitigate the situation that other tests can influence the behavior of the test by changing the test data, a "guard-clause" is used in the "arrange" part of the test case.
+
+
+

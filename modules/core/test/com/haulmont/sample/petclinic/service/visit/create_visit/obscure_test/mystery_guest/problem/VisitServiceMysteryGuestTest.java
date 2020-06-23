@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.eager_test.solution;
+package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.mystery_guest.problem;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class VisitServiceNonEagerTest {
+public class VisitServiceMysteryGuestTest {
 
     @RegisterExtension
     public static PetclinicTestContainer testContainer = PetclinicTestContainer.Common.INSTANCE;
@@ -45,69 +45,33 @@ public class VisitServiceNonEagerTest {
         pikachu = db.petWithName("Pikachu", "pet-with-owner-and-type");
     }
 
+
+
     /**
-     * Solution:
+     * Problems:
      *
-     * - splitted test cases into three dedicated test methods
-     * - describe each case as what it deals with in order to help the "test as documentation" goal
+     * - where does "pikachu" come from? what attributes does it have?
+     * - which pet is associated with the identification number "25"?
+     * - how do we know how many visits are available for pikachu?
+     * - what happens if another test also relies on pikachu and creates a visit for this test case?
      */
-    @Test
-    public void createVisitForToday_createsANewVisit_forTheCorrectPet() {
-
-        // given:
-        assertThat(db.countVisitsFor(pikachu))
-            .isEqualTo(0);
-
-        // when:
-        visit = visitService.createVisitForToday(pikachu.getIdentificationNumber());
-
-        // then:
-        assertThat(db.countVisitsFor(pikachu))
-            .isEqualTo(1);
-    }
-
     @Test
     public void createVisitForToday_createsANewVisit_withTheCorrectVisitInformation() {
 
-        // given:
-        assertThat(db.countVisitsFor(pikachu))
-            .isEqualTo(0);
-
         // when:
-        visit = visitService.createVisitForToday(pikachu.getIdentificationNumber());
+        visit = visitService.createVisitForToday("025");
 
         // then:
         assertThat(visit.getPet())
             .isEqualTo(pikachu);
 
         // and:
+        assertThat(db.countVisitsFor(pikachu))
+            .isEqualTo(1);
+
+        // and:
         assertThat(visit.getVisitStart().toLocalDate())
             .isEqualTo(timeSource.now().toLocalDate());
-
-    }
-
-    @Test
-    public void createVisitForToday_createsNoVisit_forAnIncorrectIdentificationNumber() {
-
-        // given:
-        String incorrectIdentificationNumber = "IncorrectIdentificationNumber";
-
-        assertThat(db.petWithIdentificationNumber(incorrectIdentificationNumber))
-            .isNotPresent();
-
-        // and:
-        Long amountOfVisitsBefore = db.countVisits();
-
-        // when:
-        visit = visitService.createVisitForToday(incorrectIdentificationNumber);
-
-        // then:
-        assertThat(visit)
-            .isNull();
-
-        // and:
-        assertThat(db.countVisits())
-            .isEqualTo(amountOfVisitsBefore);
     }
 
     @AfterEach

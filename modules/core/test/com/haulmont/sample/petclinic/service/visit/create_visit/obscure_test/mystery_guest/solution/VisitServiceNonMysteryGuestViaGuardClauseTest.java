@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.eager_test.solution;
+package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.mystery_guest.solution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,13 +9,14 @@ import com.haulmont.sample.petclinic.PetclinicTestContainer;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
 import com.haulmont.sample.petclinic.service.VisitService;
+import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class VisitServiceNonEagerTest {
+public class VisitServiceNonMysteryGuestViaGuardClauseTest {
 
     @RegisterExtension
     public static PetclinicTestContainer testContainer = PetclinicTestContainer.Common.INSTANCE;
@@ -45,29 +46,16 @@ public class VisitServiceNonEagerTest {
         pikachu = db.petWithName("Pikachu", "pet-with-owner-and-type");
     }
 
+
     /**
-     * Solution:
+     * Solution 1:
      *
-     * - splitted test cases into three dedicated test methods
-     * - describe each case as what it deals with in order to help the "test as documentation" goal
+     * - keep "general fixture"
+     * - introduce "arrange-guard clause" to fail fast
+     * - use pikachus identification number instead of hard-coded "25"
      */
     @Test
-    public void createVisitForToday_createsANewVisit_forTheCorrectPet() {
-
-        // given:
-        assertThat(db.countVisitsFor(pikachu))
-            .isEqualTo(0);
-
-        // when:
-        visit = visitService.createVisitForToday(pikachu.getIdentificationNumber());
-
-        // then:
-        assertThat(db.countVisitsFor(pikachu))
-            .isEqualTo(1);
-    }
-
-    @Test
-    public void createVisitForToday_createsANewVisit_withTheCorrectVisitInformation() {
+    public void createVisitForToday_createsANewVisit_withGuardClause() {
 
         // given:
         assertThat(db.countVisitsFor(pikachu))
@@ -80,35 +68,15 @@ public class VisitServiceNonEagerTest {
         assertThat(visit.getPet())
             .isEqualTo(pikachu);
 
+
+        assertThat(db.countVisitsFor(pikachu))
+            .isEqualTo(1);
+
         // and:
         assertThat(visit.getVisitStart().toLocalDate())
             .isEqualTo(timeSource.now().toLocalDate());
-
     }
 
-    @Test
-    public void createVisitForToday_createsNoVisit_forAnIncorrectIdentificationNumber() {
-
-        // given:
-        String incorrectIdentificationNumber = "IncorrectIdentificationNumber";
-
-        assertThat(db.petWithIdentificationNumber(incorrectIdentificationNumber))
-            .isNotPresent();
-
-        // and:
-        Long amountOfVisitsBefore = db.countVisits();
-
-        // when:
-        visit = visitService.createVisitForToday(incorrectIdentificationNumber);
-
-        // then:
-        assertThat(visit)
-            .isNull();
-
-        // and:
-        assertThat(db.countVisits())
-            .isEqualTo(amountOfVisitsBefore);
-    }
 
     @AfterEach
     public void cleanupVisit() {
