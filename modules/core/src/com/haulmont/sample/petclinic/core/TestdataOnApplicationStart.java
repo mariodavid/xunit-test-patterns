@@ -13,9 +13,9 @@ public class TestdataOnApplicationStart {
     @Inject
     protected VisitTestDataCreation visitTestDataCreation;
 
-    @Authenticated
-    @EventListener
-    protected void appStarted(AppContextStartedEvent event) {
-        visitTestDataCreation.createData();
-    }
+//    @Authenticated
+//    @EventListener
+//    protected void appStarted(AppContextStartedEvent event) {
+//        visitTestDataCreation.createData();
+//    }
 }

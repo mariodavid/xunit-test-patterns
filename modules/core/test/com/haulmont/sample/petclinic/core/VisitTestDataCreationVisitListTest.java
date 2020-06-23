@@ -95,14 +95,13 @@ class VisitTestDataCreationVisitListTest {
         // when:
         List<Visit> visits = visitTestDataCreation.createVisits();
 
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1).toLocalDate().atStartOfDay();;
         // then:
         assertThat(
                 visits.stream()
                         .map(Visit::getVisitStart)
                         .collect(Collectors.toList())
         )
-                .allMatch(localDateTime -> localDateTime.isBefore(tomorrow));
+                .allMatch(localDateTime -> localDateTime.isBefore(TOMORROW_MORNING));
     }
 
     @Test

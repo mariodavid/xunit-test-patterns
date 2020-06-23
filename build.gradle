@@ -1,5 +1,5 @@
 buildscript {
-  ext.cubaVersion = '7.2.4'
+  ext.cubaVersion = '7.2.5'
   repositories {
     maven {
       url 'https://dl.bintray.com/cuba-platform/main'
@@ -82,8 +82,8 @@ configure(globalModule) {
   buildInfo {
     appName = 'CUBA Petclinic'
     properties = [
-        'License': 'Apache License 2.0',
-        'Github': 'https://github.com/cuba-platform/cuba-petclinic',
+        'License'      : 'Apache License 2.0',
+        'Github'       : 'https://github.com/cuba-platform/cuba-petclinic',
         'Issue Tracker': 'https://github.com/cuba-platform/cuba-petclinic/issues'
     ]
   }
@@ -117,19 +117,9 @@ configure(coreModule) {
   }
 
   task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-    dbms = 'hsql'
-    host = 'localhost'
-    dbName = 'petclinic'
-    dbUser = 'sa'
-    dbPassword = ''
   }
 
   task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-    dbms = 'hsql'
-    host = 'localhost'
-    dbName = 'petclinic'
-    dbUser = 'sa'
-    dbPassword = ''
   }
 }
 

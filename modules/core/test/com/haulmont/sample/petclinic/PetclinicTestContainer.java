@@ -1,6 +1,12 @@
 package com.haulmont.sample.petclinic;
 
 import com.haulmont.bali.util.Dom4j;
+import com.haulmont.cuba.core.app.RdbmsStore;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.Stores;
+import com.haulmont.cuba.core.sys.DbInitializationException;
+import com.haulmont.cuba.core.sys.DbUpdater;
+import com.haulmont.cuba.core.sys.dbupdate.DbUpdaterEngine;
 import com.haulmont.cuba.testsupport.TestContainer;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -28,6 +34,7 @@ public class PetclinicTestContainer extends TestContainer {
                 // or add another one in the end.
                 "com/haulmont/sample/petclinic/test-app.properties");
         autoConfigureDataSource();
+
     }
 
     public static class Common extends PetclinicTestContainer {

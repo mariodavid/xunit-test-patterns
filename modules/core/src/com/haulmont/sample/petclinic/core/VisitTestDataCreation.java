@@ -69,8 +69,8 @@ public class VisitTestDataCreation {
         final List<Pet> allPets = list(Pet.class);
 
         return Stream.concat(
-                createPastVisits(allPets, allNurses),
-                createFutureVisits(allPets, allNurses)
+            createPastVisits(allPets, allNurses),
+            createFutureVisits(allPets, allNurses)
         )
                 .collect(Collectors.toList());
     }
