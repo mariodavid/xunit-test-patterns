@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.eager_test.solution;
+package com.haulmont.sample.petclinic.test_patterns.obscure_test.eager_test.solution;
 
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;

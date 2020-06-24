@@ -1,10 +1,11 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.mystery_guest.problem;
+package com.haulmont.sample.petclinic.test_patterns.obscure_test.mystery_guest.solution;
 
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.sample.petclinic.PetclinicTestContainer;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,5 +59,17 @@ public class PetclinicVisitDb {
     return dataManager.loadValue(
         "select count(e) from petclinic_Visit e", Long.class)
         .one();
+  }
+
+  public Pet createPet(String petName, String identificationNumber, String birthDate) {
+
+    final Pet pet = dataManager.create(Pet.class);
+
+    pet.setName(petName);
+    pet.setIdentificationNumber(identificationNumber);
+    pet.setBirthDate(LocalDate.parse(birthDate));
+
+    return dataManager.commit(pet);
+
   }
 }

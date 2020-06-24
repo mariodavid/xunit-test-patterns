@@ -6,7 +6,7 @@ The problem with obscure tests is that they threaten the goal of "Test as Docume
 
 Furthermore, it decreases the test maintainability, as it is hard to understand the test case. This results in longer cycle times for fixing bugs through tests.
 
-more information: [X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/Obscure%20Test.html)
+More information: [X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/Obscure%20Test.html)
 
 
 ### Reasons
@@ -67,4 +67,16 @@ In the test class [VisitServiceNonMysteryGuestViaFreshFixtureTest](mystery_guest
 As an alternative in case switching to "fresh fixture" is not possible, one alternative approach is still keep the general & shared fixture (see [VisitServiceNonMysteryGuestViaGuardClauseTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaGuardClauseTest.java#L58). In order to mitigate the situation that other tests can influence the behavior of the test by changing the test data, a "guard-clause" is used in the "arrange" part of the test case.
 
 
+#### General fixture
+
+A general fixture is a test data fixture that is broad and can be used for various test cases.
+
+More information: [X-Unit Test Patterns: General Fixture](http://xunitpatterns.com/Obscure%20Test.html#General%20Fixture)
+
+In this example, the general fixture lives in the init scripts of the database [db/init/hsqldb](https://github.com/mariodavid/xunit-test-patterns/blob/master/modules/core/db/init/hsql/30.create-db.sql), which contains certain test / seed data.
+
+The idea is to support many test cases, but with that it also has to be in a central place.
+This creates problems when reading the test case, because it becomes an obscure test when looking at it. It also reduces the goal of "test as documentation".
+
+Example on how to solve this: [VisitServiceNonMysteryGuestViaFreshFixtureTest](mystery_guest/solution/VisitServiceNonMysteryGuestViaFreshFixtureTest.java#L56).
 

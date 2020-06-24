@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.eager_test.problem;
+package com.haulmont.sample.petclinic.test_patterns.obscure_test.mystery_guest.solution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class VisitServiceEagerTest {
+public class VisitServiceNonMysteryGuestViaGuardClauseTest {
 
     @RegisterExtension
     public static PetclinicTestContainer testContainer = PetclinicTestContainer.Common.INSTANCE;
@@ -45,56 +45,37 @@ public class VisitServiceEagerTest {
         pikachu = db.petWithName("Pikachu", "pet-with-owner-and-type");
     }
 
+
     /**
-     * Problems:
+     * Solution:
      *
-     * - ifPossible indicates already that it tests two things
-     * - test is too long to understand the essence of it
-     * - if the test fails, it is harder to understand why
+     * - keep "general fixture"
+     * - introduce "arrange-guard clause" to fail fast
+     * - use pikachus identification number instead of hard-coded "25"
      */
     @Test
-    public void createVisitForToday_createsANewVisit_ifPossible() {
+    public void createVisitForToday_createsANewVisit_withGuardClause() {
 
         // given:
-        String incorrectIdentificationNumber = "IncorrectIdentificationNumber";
-
-        assertThat(db.petWithIdentificationNumber(incorrectIdentificationNumber))
-            .isNotPresent();
-
-        // and:
-        Long amountOfVisitsBefore = db.countVisits();
-
-        // and:
         assertThat(db.countVisitsFor(pikachu))
             .isEqualTo(0);
-
-        // when:
-        visit = visitService.createVisitForToday(incorrectIdentificationNumber);
-
-        // then:
-        assertThat(visit)
-            .isNull();
-
-        // and:
-        assertThat(db.countVisits())
-            .isEqualTo(amountOfVisitsBefore);
 
         // when:
         visit = visitService.createVisitForToday(pikachu.getIdentificationNumber());
 
         // then:
+        assertThat(visit.getPet())
+            .isEqualTo(pikachu);
+
+
         assertThat(db.countVisitsFor(pikachu))
             .isEqualTo(1);
 
         // and:
-        assertThat(visit.getPet())
-            .isEqualTo(pikachu);
-
-        // and:
         assertThat(visit.getVisitStart().toLocalDate())
             .isEqualTo(timeSource.now().toLocalDate());
-
     }
+
 
     @AfterEach
     public void cleanupVisit() {

@@ -1,12 +1,10 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.eager_test.problem;
+package com.haulmont.sample.petclinic.test_patterns.obscure_test.eager_test.problem;
 
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.sample.petclinic.PetclinicTestContainer;
-import com.haulmont.sample.petclinic.entity.owner.Owner;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
-import com.haulmont.sample.petclinic.entity.pet.PetType;
 import java.util.Optional;
 import java.util.UUID;
 

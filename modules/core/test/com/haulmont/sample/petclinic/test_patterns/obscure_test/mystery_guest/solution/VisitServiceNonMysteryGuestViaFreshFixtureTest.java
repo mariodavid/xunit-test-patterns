@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.create_visit.obscure_test.mystery_guest.solution;
+package com.haulmont.sample.petclinic.test_patterns.obscure_test.mystery_guest.solution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
