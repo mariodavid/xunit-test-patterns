@@ -64,7 +64,7 @@ public class VisitTestDataCreation {
 
     }
 
-    List<Visit> createVisits() {
+    public List<Visit> createVisits() {
         final List<User> allNurses = allNurses();
         final List<Pet> allPets = list(Pet.class);
 
@@ -126,7 +126,7 @@ public class VisitTestDataCreation {
         return visits.toArray(new Visit[visits.size()]);
     }
 
-    Visit createVisit(
+    public Visit createVisit(
         LocalDate date,
         List<Pet> possiblePets,
         List<User> possibleNurses
