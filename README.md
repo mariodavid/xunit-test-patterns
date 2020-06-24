@@ -4,7 +4,7 @@
   <img src="https://github.com/cuba-platform/cuba-petclinic/blob/master/img/petclinic_logo_with_slogan.svg"/>
 </p>
 
-This repository contains a couple of adopted examples of patterns from the great book [X-Unit Test Patterns](http://xunitpatterns.com/), which is a very good source for writing not only tests, but good, fast and maintainable test suites.
+This repository contains a couple of adopted examples of patterns from the great book [X-Unit Test Patterns - Refactoring Test Code](http://xunitpatterns.com/) from [Gerard Meszaros - @gerardmes](https://twitter.com/gerardmes), which is a very good source for writing not only tests, but good, fast and maintainable test suites.
 
 The examples with explanations can be found in the [test_patterns package of the core module](modules/core/test/com/haulmont/sample/petclinic/test_patterns).
 
