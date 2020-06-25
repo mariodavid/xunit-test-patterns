@@ -27,9 +27,7 @@ public class InvoicingProcessInitializationTest {
     @RegisterExtension
     public static PetclinicTestContainer testContainer = PetclinicTestContainer.Common.INSTANCE;
 
-    private static VisitStatusService visitStatusService;
     private static InvoicingProcessInitialization invoicingProcessInitialization;
-    private static VisitService visitService;
 
     private static PetclinicVisitDb db;
 
@@ -38,16 +36,15 @@ public class InvoicingProcessInitializationTest {
     private Optional<Invoice> invoice;
 
     @BeforeAll
-    public static void setupEnvironment() {
-        visitService = AppBeans.get(VisitService.class);
-        visitStatusService = AppBeans.get(VisitStatusService.class);
+    public static void setupEnvironment() throws Exception {
         invoicingProcessInitialization = AppBeans.get(InvoicingProcessInitialization.class);
-
 
         db = new PetclinicVisitDb(
             AppBeans.get(DataManager.class),
             testContainer
         );
+
+        importInvoiceReport();
     }
 
     @BeforeEach
@@ -64,18 +61,17 @@ public class InvoicingProcessInitializationTest {
 
         assertThat(db.invoiceForVisit(visit))
             .isNotPresent();
+
     }
 
     /**
-     * Problems:
+     * Solution:
      *
-     * - invoice is not generated synchronous
-     * - algorithm and transport mechanism are combined in one test
+     * - only the algorithm is tested in a synchronous fashion
+     * - the transport mechanism is tested in a dedicated async test / via mocking
      */
     @Test
-    public void when_updateVisitStatus_then_invoiceWillBeGenerated() throws Exception {
-
-        importInvoiceReport();
+    public void when_createInvoice_then_invoiceWillBeGenerated() throws Exception {
 
         // when:
         invoicingProcessInitialization.createInvoice(
@@ -89,7 +85,27 @@ public class InvoicingProcessInitializationTest {
             .isPresent();
     }
 
-    private void importInvoiceReport() throws Exception {
+    @Test
+    public void when_createInvoice_then_invoiceContainsOneItem() throws Exception {
+
+
+        // when:
+        invoicingProcessInitialization.createInvoice(
+            visit
+        );
+
+        // then:
+        invoice = db.invoiceForVisit(visit);
+
+        assertThat(invoice)
+            .isPresent();
+
+        // and:
+        assertThat(invoice.get().getItems())
+            .hasSize(1);
+    }
+
+    private static void importInvoiceReport() throws Exception {
         final ReportsAutoImportProcessor reportsAutoImportProcessor = AppBeans
             .get(ReportsAutoImportProcessor.class);
 

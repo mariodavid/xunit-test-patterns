@@ -5,7 +5,6 @@ import com.haulmont.cuba.core.global.Events;
 import com.haulmont.sample.petclinic.core.visit.VisitCompletedEvent;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
 import com.haulmont.sample.petclinic.entity.visit.VisitTreatmentStatus;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,17 @@ public class VisitStatusServiceBean implements VisitStatusService {
 
     private static final Logger log = LoggerFactory.getLogger(VisitStatusServiceBean.class);
 
-    @Inject
-    private Events events;
+    private final Events events;
 
-    @Inject
-    private DataManager dataManager;
+    private final DataManager dataManager;
+
+    public VisitStatusServiceBean(
+        Events events,
+        DataManager dataManager
+    ) {
+        this.events = events;
+        this.dataManager = dataManager;
+    }
 
 
     @Override

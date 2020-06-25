@@ -48,10 +48,16 @@ public class InvoicingProcessInitialization {
     @Transactional
     @Authenticated
     public void createInvoiceAfterVisitCompletion(VisitCompletedEvent event) throws InterruptedException {
-        log.info("Invoice process initialized: {}", event.getVisit());
-        createInvoice(event.getVisit());
+        final Visit visit = event.getVisit();
+        log.info("Invoice process initialized: {}", visit);
+        createInvoice(visit);
     }
 
+    /**
+     * poor mans humble object in order to achieve synchronous test execution
+     *
+     * see: http://xunitpatterns.com/Humble%20Object.html#Poor%20Man
+     */
     public void createInvoice(Visit visit) throws InterruptedException {
         letsTakeABreak();
 

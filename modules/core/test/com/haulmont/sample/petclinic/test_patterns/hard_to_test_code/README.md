@@ -20,8 +20,18 @@ There are several causes of hard to test code:
 
 When testing async code the test case has to invoke the logic and afterwards apply some kind of polling mechanism, because the test is not waiting until the operation is over.
 
-The test method `when_updateVisitStatus_then_invoiceWillBeGenerated` in [VisitCompletedAsyncTest](async_code/problem/VisitCompletedAsyncTest.java) show the situation with 
+The test method `when_updateVisitStatus_then_invoiceWillBeGenerated` in [VisitCompletedAsyncTest](async_code/problem/VisitCompletedAsyncTest.java) shows the situation with testing asynchronous code:
 
-The solution for async code is to separate the test of the transport mechanism from the test of the algorithm.
+* DB polling is required, which makes the tests more flaky
+* Exceptions in the async execution are not recognized by the tests
+* The error message of a failing test is not pointing to the root cause of the problem 
+
+In total there are four test cases that actually just want to check the algorithm, but accidentially
+test the transport mechanism as well.
+
+The test method `when_updateVisitStatus_then_invoiceContainsDocument` in [VisitCompletedAsyncTest](async_code/problem/VisitCompletedAsyncTest.java) does not even work, as it is missed to setup the report for generating the document in the DB. As the exception is not shown in the test case execution, this error is very hard to find.
+
+
+The solution for async code is to separate the test of the transport mechanism from the test of the algorithm. By splitting those two concerns in the test, the 
 
  

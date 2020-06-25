@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -115,7 +116,6 @@ public class VisitCompletedAsyncTest {
             .isEqualTo(LocalDate.now());
     }
 
-
     @Test
     public void when_updateVisitStatus_then_invoiceContainsOneInvoiceItem() {
 
@@ -136,6 +136,34 @@ public class VisitCompletedAsyncTest {
 
         assertThat(invoice.getItems())
             .hasSize(1);
+    }
+
+    /**
+     * this test case does not work, as it is missed to setup the report for generating the document
+     * in the DB. As the exception is not shown in the test case execution, this error is very hard
+     * to find...
+     */
+    @Disabled
+    @Test
+    public void when_updateVisitStatus_then_invoiceContainsDocument() {
+
+        // when:
+        boolean result = visitStatusService.updateVisitStatus(
+            visit,
+            VisitTreatmentStatus.DONE
+        );
+
+        // then:
+        assertThat(result)
+            .isTrue();
+
+        // and:
+        invoice = untilPresent(() ->
+            db.invoiceForVisit(visit)
+        );
+
+        assertThat(invoice.getDocument())
+            .isNotNull();
     }
 
     @AfterEach
