@@ -11,14 +11,17 @@ More information: [X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/
 
 ### Causes
 
-There are several causes of an obscure test:
+There are several causes of hard to test code:
 
-* Eager Test (tests too much in a single test method)
-* Mystery Guest (not able to see the cause -> effect of setup & verification)
-* General Fixture
-* ...
+* Async Code
 
 
-#### Eager Test
+#### Async Code
 
-In case of an eager test, the test case performs multiple functionalities inside of one test method.
+When testing async code the test case has to invoke the logic and afterwards apply some kind of polling mechanism, because the test is not waiting until the operation is over.
+
+The test method `when_updateVisitStatus_then_invoiceWillBeGenerated` in [VisitCompletedAsyncTest](async_code/problem/VisitCompletedAsyncTest.java) show the situation with 
+
+The solution for async code is to separate the test of the transport mechanism from the test of the algorithm.
+
+ 

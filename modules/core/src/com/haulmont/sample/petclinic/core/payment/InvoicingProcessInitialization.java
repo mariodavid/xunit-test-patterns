@@ -26,11 +26,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component("petclinic_invoicingProcessInitializer")
-public class InvoicingProcessInitializer {
+@Component("petclinic_InvoicingProcessInitialization")
+public class InvoicingProcessInitialization {
 
+    private static final Logger log = LoggerFactory.getLogger(InvoicingProcessInitialization.class);
 
-    private static final Logger log = LoggerFactory.getLogger(InvoicingProcessInitializer.class);
     @Inject
     protected TimeSource timeSource;
 
@@ -47,18 +47,24 @@ public class InvoicingProcessInitializer {
     @EventListener
     @Transactional
     @Authenticated
-    public void onApplicationEvent(VisitCompletedEvent event) throws InterruptedException {
+    public void createInvoiceAfterVisitCompletion(VisitCompletedEvent event) throws InterruptedException {
         log.info("Invoice process initialized: {}", event.getVisit());
+        createInvoice(event.getVisit());
+    }
 
+    public void createInvoice(Visit visit) throws InterruptedException {
         letsTakeABreak();
 
         CommitContext commitContext = new CommitContext();
-        Invoice invoice = createInvoiceFor(event.getVisit(), commitContext);
+
+        Invoice invoice = createInvoiceFor(
+            visit,
+            commitContext
+        );
 
         dataManager.commit(commitContext);
 
         generateInvoiceDocument(invoice);
-
     }
 
     private void generateInvoiceDocument(Invoice invoice) throws InterruptedException {
@@ -71,6 +77,8 @@ public class InvoicingProcessInitializer {
         persistedInvoice.setDocument(invoiceDocument);
 
         dataManager.commit(persistedInvoice);
+
+        letsTakeABreak();
     }
 
     private void letsTakeABreak() throws InterruptedException {
@@ -81,7 +89,7 @@ public class InvoicingProcessInitializer {
         Invoice invoice = dataManager.create(Invoice.class);
 
         invoice.setVisit(visit);
-        invoice.setInvoiceDate(visit.getVisitStart().toLocalDate());
+        invoice.setInvoiceDate(timeSource.now().toLocalDate());
         invoice.setInvoiceNumber(createInvoiceNumber());
 
         List<InvoiceItem> invoiceItems = createInvoiceItemsFor(invoice);
@@ -120,8 +128,8 @@ public class InvoicingProcessInitializer {
 
     private Report loadReportByCode(String code) {
         return dataManager.load(Report.class)
-            .query("select e from report$Report e where e.code = :reportCode")
-            .parameter("reportCode", code).one();
+            .query("e.code = ?1", code)
+            .one();
     }
 
     private static String getFilename(Invoice invoice) {
