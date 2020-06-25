@@ -7,6 +7,8 @@ import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.DatatypeFormatter;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.sample.petclinic.entity.NamedEntity;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
@@ -16,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@NamePattern("%s ()|pet")
+@NamePattern("#getCaption|pet,visitStart")
 @Table(name = "PETCLINIC_VISIT")
 @Entity(name = "petclinic_Visit")
 public class Visit extends StandardEntity {
@@ -133,6 +135,14 @@ public class Visit extends StandardEntity {
 
     private boolean inTreatmentStatus(VisitTreatmentStatus inProgress) {
         return getTreatmentStatus().equals(inProgress);
+    }
+
+    public String getCaption() {
+        return String.format("%s (%s)", getPetName(), formatDate(getVisitStart()));
+    }
+
+    private String formatDate(LocalDateTime date) {
+        return AppBeans.get(DatatypeFormatter.class).formatLocalDate(date.toLocalDate());
     }
 
 }

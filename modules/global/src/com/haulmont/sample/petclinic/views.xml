@@ -27,4 +27,8 @@
         <property name="owner"
                   view="_local"/>
     </view>
+  <view entity="petclinic_Invoice" name="invoice-with-details-view" extends="_local">
+    <property name="items" view="_base"/>
+    <property name="document" view="_minimal" />
+  </view>
 </views>

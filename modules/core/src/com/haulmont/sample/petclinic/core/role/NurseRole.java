@@ -1,5 +1,6 @@
 package com.haulmont.sample.petclinic.core.role;
 
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.security.app.role.AnnotatedRoleDefinition;
 import com.haulmont.cuba.security.app.role.annotation.EntityAccess;
 import com.haulmont.cuba.security.app.role.annotation.EntityAttributeAccess;
@@ -10,6 +11,8 @@ import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.role.EntityAttributePermissionsContainer;
 import com.haulmont.cuba.security.role.EntityPermissionsContainer;
 import com.haulmont.cuba.security.role.ScreenPermissionsContainer;
+import com.haulmont.sample.petclinic.entity.invoice.Invoice;
+import com.haulmont.sample.petclinic.entity.invoice.InvoiceItem;
 import com.haulmont.sample.petclinic.entity.owner.Owner;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.pet.PetType;
@@ -22,6 +25,9 @@ public class NurseRole extends AnnotatedRoleDefinition {
 
   public final static String NAME = "Nurse";
 
+  @EntityAccess(entityClass = FileDescriptor.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+  @EntityAccess(entityClass = Invoice.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+  @EntityAccess(entityClass = InvoiceItem.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
   @EntityAccess(entityClass = Visit.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
   @EntityAccess(entityClass = Pet.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
   @EntityAccess(entityClass = Owner.class, operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
@@ -35,6 +41,8 @@ public class NurseRole extends AnnotatedRoleDefinition {
   }
 
 
+  @EntityAttributeAccess(entityClass = Invoice.class, modify = "*")
+  @EntityAttributeAccess(entityClass = InvoiceItem.class, modify = "*")
   @EntityAttributeAccess(entityClass = Owner.class, modify = "*")
   @EntityAttributeAccess(entityClass = Pet.class, modify = "*")
   @EntityAttributeAccess(entityClass = Visit.class, modify = "*")
@@ -42,7 +50,6 @@ public class NurseRole extends AnnotatedRoleDefinition {
   @EntityAttributeAccess(entityClass = Specialty.class, view = "*")
   @EntityAttributeAccess(entityClass = Veterinarian.class, view = "*")
   @EntityAttributeAccess(entityClass = User.class, view = "*")
-  @EntityAttributeAccess(entityClass = Visit.class, modify = "pet") // TODO: remove when https://github.com/cuba-platform/cuba/issues/2869 is solved
   @Override
   public EntityAttributePermissionsContainer entityAttributePermissions() {
     return super.entityAttributePermissions();
@@ -53,6 +60,9 @@ public class NurseRole extends AnnotatedRoleDefinition {
       "petclinic_myVisits",
       "petclinic_Visit.browse",
       "petclinic_Visit.edit",
+      "petclinic_Invoice.browse",
+      "petclinic_Invoice.edit",
+      "petclinic_InvoiceItem.edit",
       "petclinic_Pet.browse",
       "petclinic_Pet.edit",
       "petclinic_Owner.browse",

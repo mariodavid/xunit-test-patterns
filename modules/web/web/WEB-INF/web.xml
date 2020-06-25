@@ -18,7 +18,8 @@
     <!--Application components-->
     <context-param>
         <param-name>appComponents</param-name>
-        <param-value>com.haulmont.cuba com.haulmont.addon.helium</param-value>
+        <param-value>com.haulmont.cuba com.haulmont.addon.helium com.haulmont.reports
+          com.haulmont.addon.admintools</param-value>
     </context-param>
     <listener>
         <listener-class>com.vaadin.server.communication.JSR356WebsocketInitializer</listener-class>

@@ -19,6 +19,8 @@
           value="com.haulmont.sample.petclinic.service.VisitService"/>
         <entry key="petclinic_DiseaseWarningMailingService"
           value="com.haulmont.sample.petclinic.service.DiseaseWarningMailingService"/>
+        <entry key="petclinic_VisitStatusService"
+          value="com.haulmont.sample.petclinic.service.VisitStatusService"/>
       </map>
     </property>
   </bean>

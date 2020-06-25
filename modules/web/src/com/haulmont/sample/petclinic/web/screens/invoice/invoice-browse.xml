@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+  xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+  caption="msg://invoiceBrowse.caption"
+  focusComponent="invoicesTable"
+  messagesPack="com.haulmont.sample.petclinic.web.screens.invoice">
+  <data readOnly="true">
+    <collection id="invoicesDc"
+      class="com.haulmont.sample.petclinic.entity.invoice.Invoice">
+      <view extends="_local">
+        <property name="visit" view="_minimal"/>
+        <property name="document" view="_base"/>
+      </view>
+      <loader id="invoicesDl">
+        <query>
+          <![CDATA[select e from petclinic_Invoice e]]>
+        </query>
+      </loader>
+    </collection>
+  </data>
+  <dialogMode height="600"
+    width="800"/>
+  <facets>
+    <timer id="autoRefreshTimer"
+      delay="5000"
+      autostart="false"
+      repeating="true"/>
+  </facets>
+  <layout expand="invoicesTable"
+    spacing="true">
+    <filter id="filter"
+      applyTo="invoicesTable"
+      dataLoader="invoicesDl">
+      <properties include=".*"/>
+    </filter>
+    <groupTable id="invoicesTable"
+      width="100%"
+      dataContainer="invoicesDc">
+      <actions>
+        <action id="view" type="view"/>
+        <action id="download" trackSelection="true" caption="msg://download" icon="DOWNLOAD"/>
+      </actions>
+      <columns>
+        <column id="invoiceNumber" sort="DESCENDING"/>
+        <column id="invoiceDate"/>
+        <column id="visit"/>
+        <column id="document"/>
+      </columns>
+      <rowsCount/>
+      <buttonsPanel id="buttonsPanel"
+        alwaysVisible="true">
+        <button id="viewBtn" action="invoicesTable.view"/>
+        <button id="downloadBtn" action="invoicesTable.download"/>
+      </buttonsPanel>
+    </groupTable>
+    <hbox id="lookupActions" spacing="true" visible="false">
+      <button action="lookupSelectAction"/>
+      <button action="lookupCancelAction"/>
+    </hbox>
+  </layout>
+</window>

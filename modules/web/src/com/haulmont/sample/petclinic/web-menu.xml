@@ -4,6 +4,8 @@
         <item screen="petclinic_Visit.browse"/>
         <item screen="petclinic_Pet.browse"/>
         <item screen="petclinic_Owner.browse"/>
+      <item screen="petclinic_Invoice.browse"
+        caption="mainMsg://menu_config.petclinic_Invoice.browse"/>
     </menu>
     <menu id="application-masterdata" insertBefore="administration">
         <item screen="petclinic_Veterinarian.browse"/>

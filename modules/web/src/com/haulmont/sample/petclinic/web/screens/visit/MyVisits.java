@@ -15,6 +15,7 @@ import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
 
 import com.haulmont.sample.petclinic.entity.visit.VisitTreatmentStatus;
+import com.haulmont.sample.petclinic.service.VisitStatusService;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -46,6 +47,8 @@ public class MyVisits extends MasterDetailScreen<Visit> {
   protected DataManager dataManager;
   @Inject
   protected MessageBundle messageBundle;
+  @Inject
+  protected VisitStatusService visitStatusService;
 
   @Subscribe
   protected void onInit(InitEvent event) {
@@ -100,9 +103,8 @@ public class MyVisits extends MasterDetailScreen<Visit> {
         .withCaption(messageBundle.formatMessage(messageKey, petName))
         .show();
   }
-  private void updateTreatmentTo(Visit visitToStart, VisitTreatmentStatus targetStatus) {
-    visitToStart.setTreatmentStatus(targetStatus);
-    dataManager.commit(visitToStart);
+  private void updateTreatmentTo(Visit visit, VisitTreatmentStatus status) {
+    visitStatusService.updateVisitStatus(visit, status);
     visitsDl.load();
   }
 
