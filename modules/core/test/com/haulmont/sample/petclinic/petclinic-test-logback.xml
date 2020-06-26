@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>TRACE</level>
+    </filter>
+
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <!-- Begin CUBA -->
+
+  <logger name="com.haulmont.bali.util.Dom4j" level="DEBUG"/>
+
+  <logger name="com.haulmont.cuba" level="DEBUG"/>
+
+  <logger name="com.haulmont.cuba.core.sys.CubaDefaultListableBeanFactory" level="WARN"/>
+
+  <logger name="com.haulmont.cuba.core.sys.CubaCoreApplicationContext" level="INFO"/>
+
+  <logger name="com.haulmont.cuba.core.sys.persistence.EclipseLinkSessionEventListener" level="INFO" />
+
+  <!-- End CUBA -->
+
+  <logger name="org.springframework" level="WARN"/>
+
+  <logger name="eclipselink" level="WARN"/>
+
+  <logger name="eclipselink.sql" level="DEBUG"/>
+
+  <logger name="org.springframework" level="WARN"/>
+
+  <logger name="org.activiti" level="INFO"/>
+
+  <logger name="freemarker" level="INFO"/>
+
+  <logger name="org.docx4j" level="INFO"/>
+
+  <logger name="org.hibernate" level="WARN"/>
+
+  <logger name="sun" level="INFO"/>
+
+  <logger name="com.sun" level="INFO"/>
+
+  <logger name="javax" level="INFO"/>
+
+  <logger name="org.apache" level="INFO"/>
+
+  <logger name="org.perf4j.TimingLogger" level="OFF"/>
+
+</configuration>

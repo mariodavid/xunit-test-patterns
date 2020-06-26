@@ -1,22 +1,18 @@
 package com.haulmont.sample.petclinic;
 
-import com.haulmont.bali.util.Dom4j;
-import com.haulmont.cuba.core.app.RdbmsStore;
-import com.haulmont.cuba.core.global.AppBeans;
-import com.haulmont.cuba.core.global.Stores;
-import com.haulmont.cuba.core.sys.DbInitializationException;
-import com.haulmont.cuba.core.sys.DbUpdater;
-import com.haulmont.cuba.core.sys.dbupdate.DbUpdaterEngine;
 import com.haulmont.cuba.testsupport.TestContainer;
-import org.dom4j.Document;
-import org.dom4j.Element;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 public class PetclinicTestContainer extends TestContainer {
+
+    static {
+        System.setProperty(
+            "logback.configurationFile",
+            "com/haulmont/sample/petclinic/petclinic-test-logback.xml"
+        );
+    }
 
     public PetclinicTestContainer() {
         super();
