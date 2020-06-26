@@ -14,6 +14,9 @@ More information: [X-Unit Test Patterns: Obscure Test](http://xunitpatterns.com/
 There are several causes of hard to test code:
 
 * Async Code
+* highly coupled code
+* untestable test code
+* ...
 
 
 #### Async Code
