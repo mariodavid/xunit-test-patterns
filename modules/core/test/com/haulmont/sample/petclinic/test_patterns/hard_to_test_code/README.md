@@ -26,12 +26,14 @@ The test method `when_updateVisitStatus_then_invoiceWillBeGenerated` in [VisitCo
 * Exceptions in the async execution are not recognized by the tests
 * The error message of a failing test is not pointing to the root cause of the problem 
 
-In total there are four test cases that actually just want to check the algorithm, but accidentially
-test the transport mechanism as well.
+In total there are four test cases that actually just want to check the algorithm, but accidentally test the transport mechanism as well.
 
 The test method `when_updateVisitStatus_then_invoiceContainsDocument` in [VisitCompletedAsyncTest](async_code/problem/VisitCompletedAsyncTest.java) does not even work, as it is missed to setup the report for generating the document in the DB. As the exception is not shown in the test case execution, this error is very hard to find.
 
 
-The solution for async code is to separate the test of the transport mechanism from the test of the algorithm. By splitting those two concerns in the test, the 
+The solution for async code is to separate the test of the transport mechanism from the test of the algorithm. By splitting those two concerns in the test, the majority of the test cases that are dealing with testing the algorithm can be made more stable by having a synchronous invocation. Example: [InvoicingProcessInitializationTest](async_code/solution/InvoicingProcessInitializationTest.java)
 
- 
+For the transport mechanism test, there are two tests that deal with this:  
+
+* [VisitStatusServiceMockingTest](async_code/solution/VisitStatusServiceMockingTest.java)
+* [VisitStatusServiceSmokeTest](async_code/solution/VisitStatusServiceSmokeTest.java)
