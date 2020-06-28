@@ -2,7 +2,7 @@
 
 > A test contains code that may or may not be executed
 
-The goal of an automated test is go gain trust in our buggy implementation. But how do we trust our tests? Two options are available:
+The goal of an automated test is to gain trust in our buggy implementation. But how do we trust our tests? Two options are available:
 
 1. test your tests
 2. apply a simpler programming pattern do increase the chances of not doing something wrong

@@ -4,7 +4,7 @@
 
 Duplicate code is a commonly known problem in production code. But oftentimes in test code code duplication occurs even more. 
 
-The reasons might be different, but oftentimes it is based on the fact that tests are not treated as first-class citizens. In particular test data setup and verfication logic are often duplicated. 
+The reasons might be different, but oftentimes it is based on the fact that tests are not treated as first-class citizens. In particular test data setup and verfication logic are often duplicated.
 
 More information: [X-Unit Test Patterns: Code Duplication](http://xunitpatterns.com/Test%20Code%20Duplication.html)
 

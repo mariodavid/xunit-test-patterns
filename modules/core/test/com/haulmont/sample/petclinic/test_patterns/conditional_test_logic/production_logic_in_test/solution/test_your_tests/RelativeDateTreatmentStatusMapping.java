@@ -1,7 +1,5 @@
 package com.haulmont.sample.petclinic.test_patterns.conditional_test_logic.production_logic_in_test.solution.test_your_tests;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.haulmont.sample.petclinic.entity.visit.Visit;
 import com.haulmont.sample.petclinic.entity.visit.VisitTreatmentStatus;
 import com.haulmont.sample.petclinic.test_patterns.conditional_test_logic.production_logic_in_test.SomethingStrangeHappenedInTheUniverseException;
